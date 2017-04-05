@@ -26,20 +26,19 @@ PigDice.prototype.compScore = function() {
 // defining the limits and rolling terms for the computer
 PigDice.prototype.computerRoll = function() {
   var compRollScore = 0;
-  compRollScore = this.randomNumber();
-  console.log("compRollScore-first:" + compRollScore);
-  for(var i=0;i<2 && compRollScore > 1;i++)
+  var flag = 2;
+
+  for(var i=0;i<2 && flag > 1;i++)
   {
+    compRollScore = this.randomNumber();
     this.turnScore += compRollScore;
     console.log("Watson Turn Score" +this.turnScore);
-    compRollScore = this.randomNumber();
-    console.log("compRollScore-second:" + compRollScore);
-  }
-  if(compRollScore === 1) // if the computer rolls a one then it becomes the user's turn
-  {
-    console.log("Watson : I rolled 1")
-    this.turnScore = 0;
-    this.compScore();
+    if(compRollScore === 1)
+    {
+      flag = 0;
+      this.turnScore = 0;
+    }
+    console.log("compRollScore" + i +":" + compRollScore);
   }
   console.log("Watson score:"+this.compScore());
 }
