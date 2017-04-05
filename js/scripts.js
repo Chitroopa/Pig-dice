@@ -24,3 +24,10 @@ $(document).ready(function(){
     // $("#computer-result").text(computerResult);
   });
 });
+function PigDice(playerName, playerScore, computer, computerScore, turnTotal) {
+  this.playerName = playerName;
+  this.playerScore = playerScore;
+  this.computer = computer;
+  this.computerScore = computerScore;
+  this.turnTotal = turnTotal;
+}
