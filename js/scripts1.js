@@ -3,7 +3,7 @@ function PigDice(playerName, computer) {
   this.playerScore = 0;
   this.computer = computer;
   this.computerScore = 0;
-  this.turnTotal = 0;
+  this.turnScore = 0;
 }
 PigDice.prototype.randomNumber = function() {
   var diceArray = [1,2,3,4,5,6];
@@ -11,32 +11,51 @@ PigDice.prototype.randomNumber = function() {
   return rNumber;
 }
 PigDice.prototype.holdScore = function() {
-  this.playerScore += this.turnTotal;
-  this.turnTotal = 0;
+  this.playerScore += this.turnScore;
+  this.turnScore = 0;
   return this.playerScore;
+}
+PigDice.prototype.compScore = function() {
+  this.computerScore += this.turnScore;
+  this.turnScore = 0;
+  return this.computerScore;
 }
 
 $(document).ready(function(){
 
   var rollScore = 0;
+  var compRollScore = 0;
   var playerNameInput = "Bob";
   var computerName = "Watson";
   var newPigDice = new PigDice(playerNameInput, computerName);
   $("#roll").click(function(event){
         event.preventDefault();
-    rollScore = newPigDice.randomNumber();
-    newPigDice.turnTotal += rollScore;
-    if(rollScore === 1)
+    if(newPigDice.playerScore >= 50)
     {
-      newPigDice.turnTotal = 0;
+       console.log("player1 wins!");
     }
-    console.log(rollScore);
-    console.log("turnTotal:" + newPigDice.turnTotal);
+    else
+    {
+      rollScore = newPigDice.randomNumber();
+      newPigDice.turnScore += rollScore;
+      if(rollScore === 1)
+      {
+        newPigDice.turnScore = 0;
+        newPigDice.holdScore();
+        compRollScore = newPigDice.randomNumber();
+        newPigDice.turnScore += compRollScore;
+        console.log("Watson score:"+newPigDice.compScore());
+      }
 
+      console.log(rollScore);
+      console.log("turnScore:" + newPigDice.turnScore);
+    }
   });
   $("#hold-score").click(function(event){
       event.preventDefault();
       console.log("Player score:"+newPigDice.holdScore());
+      compRollScore = newPigDice.randomNumber();
+      newPigDice.turnScore += compRollScore;
+      console.log("Watson score:"+newPigDice.compScore());
   });
-
 });
