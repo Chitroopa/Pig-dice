@@ -28,21 +28,24 @@ PigDice.prototype.computerRoll = function() {
   var compRollScore = 0;
   var flag = 2;
 
+  $("#watson-score").text("");
+
   for(var i=0;i<2 && flag > 1;i++)
   {
-
       compRollScore = this.randomNumber();
-
+      $("#dice-roll").hide();
+      $("#watson-score").show();
       $("#watson-score").append("<li>" + compRollScore + "<li>");
-
       this.turnScore += compRollScore;
       console.log("Watson Turn Score" +this.turnScore);
+      $("#turn-score").text(this.turnScore);
       if(compRollScore === 1)
       {
         flag = 0;
         this.turnScore = 0;
       }
       console.log("compRollScore" + i +":" + compRollScore);
+      $("#turn-score").text(this.turnScore);
       // $("#watson-score").append("<li>" + compRollScore + "<li>");
 
   }
@@ -77,8 +80,11 @@ $(document).ready(function(){
       rollScore = newPigDice.randomNumber();
       newPigDice.turnScore += rollScore;
       console.log(rollScore);
+      $("#dice-roll").show();
+      $("#watson-score").hide();
       $("#dice-roll").text(rollScore);
       console.log("turnScore:" + newPigDice.turnScore);
+      $("#turn-score").text(newPigDice.turnScore);
       // the user will lose their points and their turn when they roll a one
       if(rollScore === 1)
       {
@@ -86,7 +92,10 @@ $(document).ready(function(){
         newPigDice.holdScore();
         console.log(rollScore);
         console.log("turnScore:" + newPigDice.turnScore);
-        newPigDice.computerRoll();
+        $("#turn-score").text(newPigDice.turnScore);
+        setTimeout(function() {
+         newPigDice.computerRoll();
+        }, 2000);
       }
     newPigDice.winner();
 
@@ -94,12 +103,15 @@ $(document).ready(function(){
   // when the user clicks the hold button their turn score is added to the total score and the turn is handed over to Watson
   $("#hold-score").click(function(event){
       event.preventDefault();
+
       console.log("Player score:"+newPigDice.holdScore());
       var winner = newPigDice.winner();
       if (!winner)
       {
-        newPigDice.computerRoll();
-        newPigDice.winner();
+        setTimeout(function() {
+          newPigDice.computerRoll();
+        }, 2000);
+          newPigDice.winner();
       }
   });
 });
