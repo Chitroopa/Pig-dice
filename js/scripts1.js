@@ -30,36 +30,42 @@ PigDice.prototype.computerRoll = function() {
 
   $("#watson-score").text("");
 
-  for(var i=0;i<2 && flag > 1;i++)
+  for(var i=0;i<3 && flag > 1;i++)
   {
-      compRollScore = this.randomNumber();
-      $("#dice-roll").hide();
-      $("#watson-score").show();
-      $("#watson-score").append("<li>" + compRollScore + "<li>");
-      this.turnScore += compRollScore;
-      console.log("Watson Turn Score" +this.turnScore);
-      $("#turn-score").text(this.turnScore);
-      if(compRollScore === 1)
-      {
-        flag = 0;
-        this.turnScore = 0;
-      }
-      console.log("compRollScore" + i +":" + compRollScore);
-      $("#turn-score").text(this.turnScore);
-      // $("#watson-score").append("<li>" + compRollScore + "<li>");
+    compRollScore = this.randomNumber();
+    $("#dice-roll").hide();
+    $("#watson-score").show();
+    $("#watson-score").append("<li>" + compRollScore + "<li>");
+    this.turnScore += compRollScore;
+    $("#turn-score").text(this.turnScore);
+    if(compRollScore === 1)
+    {
+      flag = 0;
+      this.turnScore = 0;
+    }
+    $("#turn-score").text(this.turnScore);
+    $("#common-display").text("");
 
   }
-  console.log("Watson score:"+this.compScore());
+  $("#watson-total").text(this.compScore());
+  $("#roll, #hold-score").show();
+  var winner = this.winner();
+  if (winner)
+  {
+    $("#dice-roll, #watson-score").hide();
+  }
 }
 PigDice.prototype.winner = function() {
   if(this.playerScore >= 100)
    {
-      console.log("player1 wins!");
+      $("#common-display").text("Congratulations human on your lucky win...let's play again!")
+      $("#lucky, #play-again").show();
       return true;
    }
    else if(this.computerScore >= 100)
    {
-     console.log("Watson wins!");
+     $("#common-display").text("HA HA pathetic human, I, Mr. Watson, the Super Computer easily defeated you!")
+     $("#watson, #play-again").show();
      return true;
    }
    return false;
@@ -71,47 +77,51 @@ $(document).ready(function(){
 
   var playerNameInput = "Bob";
   var computerName = "Watson";
-  var newPigDice = new PigDice(playerNameInput, computerName);    // creating a new object
+  var newPigDice = new PigDice(playerNameInput, computerName);
+  $("#roll, #hold-score").show();   // creating a new object
 
   $("#roll").click(function(event){ // rolling the dice for the user when the roll button is clicked
-      event.preventDefault();
-      newPigDice.winner();
-
-      rollScore = newPigDice.randomNumber();
-      newPigDice.turnScore += rollScore;
-      console.log(rollScore);
-      $("#dice-roll").show();
-      $("#watson-score").hide();
-      $("#dice-roll").text(rollScore);
-      console.log("turnScore:" + newPigDice.turnScore);
+    event.preventDefault();
+    if (newPigDice.winner())
+    {
+      $("#dice-roll, #watson-score").hide();
+    }
+    rollScore = newPigDice.randomNumber();
+    newPigDice.turnScore += rollScore;
+    $("#dice-roll").show();
+    $("#watson-score").hide();
+    $("#dice-roll").text(rollScore);
+    $("#turn-score").text(newPigDice.turnScore);
+    // the user will lose their points and their turn when they roll a one
+    if(rollScore === 1)
+    {
+      newPigDice.turnScore = 0;
+      newPigDice.holdScore();
       $("#turn-score").text(newPigDice.turnScore);
-      // the user will lose their points and their turn when they roll a one
-      if(rollScore === 1)
-      {
-        newPigDice.turnScore = 0;
-        newPigDice.holdScore();
-        console.log(rollScore);
-        console.log("turnScore:" + newPigDice.turnScore);
-        $("#turn-score").text(newPigDice.turnScore);
-        setTimeout(function() {
-         newPigDice.computerRoll();
-        }, 2000);
-      }
+      $("#roll, #hold-score").hide();
+      $("#common-display").text("You rolled a 1 :( you lose your turn and points...")
+      setTimeout(function() {
+       newPigDice.computerRoll();
+     }, 2000);
+    }
     newPigDice.winner();
-
   });
   // when the user clicks the hold button their turn score is added to the total score and the turn is handed over to Watson
   $("#hold-score").click(function(event){
-      event.preventDefault();
-
-      console.log("Player score:"+newPigDice.holdScore());
-      var winner = newPigDice.winner();
-      if (!winner)
-      {
-        setTimeout(function() {
-          newPigDice.computerRoll();
-        }, 2000);
-          newPigDice.winner();
-      }
+    event.preventDefault();
+    $("#user-total").text(newPigDice.holdScore());
+    if (newPigDice.winner())
+    {
+      $("#dice-roll, #watson-score").hide();
+    }
+    var winner = newPigDice.winner();
+    if (!winner)
+    {
+      $("#roll, #hold-score").hide();
+      $("#common-display").text("Mr. Watson is rolling...");
+      setTimeout(function() {
+        newPigDice.computerRoll();
+      }, 1000);
+    }
   });
 });

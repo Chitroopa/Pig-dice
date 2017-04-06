@@ -8,29 +8,34 @@
   </head>
   <body>
     <div class="container">
+      <h1 class="well header-style">Pig Dice</h1>
+      <div class="row col-style-rules">
+        <h2>How to play</h2>
+        <p>- The game of Pig is pretty simple. Roll as many times as you want in a turn...but if you get a "1" (a Pig) you lose your turn (and any points earned in that turn). <br> - Your goal is to get to 100 points before our supercomputer Mr. Watson does. <br> - So roll away...then click on Hold when you are ready to let Mr. Watson play.</p><br><br>
+      </div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-2"></div>
+        <div class="col-md-6 col-style1">
            <div class="result-display">
-             <div class="well"><h1>Pig Dice</h1></div>
              <h2><span id="common-display"></span></h2>
+             <img id="watson" src="img/watson.jpeg" alt="watson" /> <br>
+             <img id="lucky" src="img/lucky.jpg" alt="lucky" /> <br>
+             <a href="index.html" class="btn btn-primary btn-lg active bg-success notshow-tryagain" id="play-again" role="button" aria-pressed="true">Play again!</a>
              <h1 id="dice-roll"></h1>
              <ul id="watson-score">
-
              </ul>
            </div>
         </div>
-        <div class="col-md-2">
+
+        <div class="col-md-2 col-style2">
           <h1 id="user-result"></h1>
           <h4>Turn Score: <span id="turn-score"></span></h4>
           <h5>You: <span id="user-total"></span></h5>
-          <button type="submit" id="roll">Roll</button>
+          <h5>Mr. Watson: <span id="watson-total"></span></h5>
+          <button type="submit" id="roll">Roll</button> <br>
           <button type="submit" id="hold-score">Hold</button>
-          <h5>Watson: <span id="watson-total"></span></h5>
         </div>
-        <div class="col-md-4">
-          <h2>How to play</h2>
-          <p>- The game of Pig is pretty simple. Roll as many times as you want in a turn...but if you get a "1" (a Pig) you lose your turn (and any points earned in that turn). <br> - Your goal is to get to 100 points before our supercomputer Watson does. <br> - So roll away...then click on Hold when you are ready to let Watson play.</p>
-        </div>
+
       </div>
     </div>
   </body>
